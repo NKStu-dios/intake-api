@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\CompanyProfileController;
 use App\Http\Controllers\Api\StudentProfileController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\ApplicationController;
+use App\Http\Controllers\Api\SavedPositionController;
+use App\Http\Controllers\Api\NotificationController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -43,4 +45,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/positions/{position}/applicants', [ApplicationController::class, 'applicants']);
     Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus']);
     Route::patch('/applications/{application}/accept', [ApplicationController::class, 'accept']);
+
+    // Saved positions
+    Route::post('/positions/{position}/save', [SavedPositionController::class, 'store']);
+    Route::delete('/positions/{position}/save', [SavedPositionController::class, 'destroy']);
+    Route::get('/saved-positions', [SavedPositionController::class, 'index']);
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markRead']);
+    Route::patch('/notifications/read-all', [NotificationController::class, 'markAllRead']);
 });
